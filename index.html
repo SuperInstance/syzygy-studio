@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Syzygy — machines that see in letters</title>
+<meta name="description" content="Syzygy is a tiny kernel that turns camera frames into readable text, so small models can learn to see — one camera, one job at a time.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <div class="wordmark"><a href="index.html">Syzygy</a></div>
+  <div class="tagline">The camera speaks in letters, so small minds can see.</div>
+  <nav class="main">
+    <a href="index.html" aria-current="page">Home</a>
+    <a href="watch.html">Watch</a>
+    <a href="learn.html">Learn</a>
+    <a href="uses.html">Uses</a>
+    <a href="results.html">Receipts</a>
+  </nav>
+</div></header>
+
+<main class="wrap">
+  <h1>Seeing, in letters</h1>
+
+  <p class="lede">Syzygy is a tiny program that turns a camera frame into
+  readable text — Braille dots, edge marks, and tone characters — in one
+  fast pass, producing exactly the same output on every machine.</p>
+
+  <p class="lede">Because the world arrives as text, a small text model
+  can learn to <em>see</em> through it.</p>
+
+  <p class="lede">And each model learns exactly one camera's one job —
+  nothing more — so it stays small enough to run almost anywhere.</p>
+
+  <figure>
+    <video controls preload="none" poster="media/docks-poster.jpg"
+           src="media/docks.mp4" width="1280" height="692">
+      Your browser cannot play this video. It shows a first-person walk
+      down a harbor dock in Sitka, Alaska, side by side with the text
+      render the kernel produces from the same frames.
+    </video>
+    <figcaption>A walk down a real dock in Sitka, Alaska. Left: the
+    camera. Right: what Syzygy sees — the same scene as letters. The
+    alphabet rotates as the walk goes on (edge marks, tone, Braille),
+    and midway the render trades detail for speed and back again. That
+    trade — resolution for frame rate — is the whole economics of this
+    system, visible in one clip.</figcaption>
+  </figure>
+
+  <h2>Try the kernel right now</h2>
+  <p>The kernel itself runs in your browser, on your own camera if you
+  allow it — nothing leaves your device:
+  <a href="https://syzygy-1j5.pages.dev/">the live Syzygy demo</a>.
+  The full source is public:
+  <a href="https://github.com/SuperInstance/Syzygy">SuperInstance/Syzygy</a>
+  on GitHub.</p>
+
+  <h2>Where to go next</h2>
+  <div class="card">
+    <h3><a href="watch.html">Watch it play</a></h3>
+    <p>A model reads a game's letter-grid and plays it, steered by
+    strategy tiles you can swap mid-game. Seeing become doing, with the
+    honest timings printed on the exhibit.</p>
+  </div>
+  <div class="card">
+    <h3><a href="learn.html">Learn, at your level</a></h3>
+    <p>Three tracks: the curious (plain language, no jargon), builders
+    (clone it, run it, write a strategy tile), and agents (a tutorial
+    written for a model learning to read a text frame — procedures and
+    measured baselines included).</p>
+  </div>
+  <div class="card">
+    <h3><a href="uses.html">What it's for</a></h3>
+    <p>One camera, one job: the harbor inventory walker, the warehouse
+    forklift, the packing grabber, and the overseer that joins many
+    first-person views into one map.</p>
+  </div>
+  <div class="card">
+    <h3><a href="results.html">The receipts</a></h3>
+    <p>What we measured, what failed, and what is not true yet —
+    including the experiment where a walled-in goal went unnoticed 59
+    times out of 60, and why that taught us more than the successes.</p>
+  </div>
+
+  <blockquote class="captain">
+    Super, not artificial. You are not handing over the captain role —
+    you are hiring more crew.
+  </blockquote>
+  <p>SuperInstance was designed while commercial fishing, on the model
+  of a vessel: crew aboard, equipment aboard, and a captain who is
+  responsible for everything. Expertise can be hired — architects,
+  welders, shipfitters — but the application, and the responsibility,
+  stay with the captain. These systems are built to be crew.</p>
+</main>
+
+<footer class="site"><div class="wrap">
+  <p>Syzygy measures; it does not judge. Claims on this site sit next to
+  their receipts — see <a href="results.html">Receipts</a>.</p>
+  <p>Source: <a href="https://github.com/SuperInstance/Syzygy">kernel</a> ·
+  <a href="https://github.com/SuperInstance/syzygy-video">video pipeline</a> ·
+  <a href="https://github.com/SuperInstance/syzygy-demo">playable demo</a> ·
+  <a href="https://github.com/SuperInstance/syzygy-studio">this site</a></p>
+</div></footer>
+</body>
+</html>

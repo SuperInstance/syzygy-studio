@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Receipts — what we measured, what failed</title>
+<meta name="description" content="The honest numbers: the stage-1 reading experiment (frame vs blind vs shuffled, lift, the sealed-goal finding), the kernel's golden hash and 219 checks, and what is not true yet.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <div class="wordmark"><a href="index.html">Syzygy</a></div>
+  <div class="tagline">The camera speaks in letters, so small minds can see.</div>
+  <nav class="main">
+    <a href="index.html">Home</a>
+    <a href="watch.html">Watch</a>
+    <a href="learn.html">Learn</a>
+    <a href="uses.html">Uses</a>
+    <a href="results.html" aria-current="page">Receipts</a>
+  </nav>
+</div></header>
+
+<main class="wrap">
+  <h1>Receipts</h1>
+  <p class="lede">House style: every story ends with citations at the
+  bottom, and anyone can check them. This page <em>is</em> the
+  citations — the measured numbers, the failures at full size, and the
+  list of what is not true yet.</p>
+
+  <h2>The reading experiment (stage 1, 2026-10-11)</h2>
+  <p>The premise test: can text-only models actually <em>read</em> a
+  scene from its text render? Sixty mazes with exact ground truth, 300
+  closed-form, purpose-shaped questions (goal bearing, adjacent walls,
+  wall to the west, distance, does a path exist), each answer derived
+  from the truth programmatically — never from a model's opinion. Every
+  reader answered under three conditions: its own frame, no frame
+  (blind), and another maze's frame (shuffled — the control that
+  separates reading from prior knowledge of mazes).</p>
+
+  <table>
+    <tr><th>Reader</th><th class="num">With frame</th><th class="num">Blind</th><th class="num">Shuffled</th><th class="num">Lift (frame − blind)</th></tr>
+    <tr><td>GLM (glm-4.5-flash)</td><td class="num">0.443</td><td class="num">0.153</td><td class="num">0.337</td><td class="num"><strong>+0.290</strong></td></tr>
+    <tr><td>MiniMax (MiniMax-Text-01)</td><td class="num">0.353</td><td class="num">0.107</td><td class="num">0.253</td><td class="num"><strong>+0.247</strong></td></tr>
+  </table>
+  <p class="small">Accuracy over 300 questions per cell, strict frozen
+  scoring. Sensitivity, stated not buried: both readers left many blind
+  answers unparsed (template echoes instead of guesses); counting only
+  parsed answers, the honest lift range is <strong>+0.11 … +0.29</strong>.
+  The shuffled condition scoring above blind for both readers shows why
+  the blind control alone would overstate reading: a wrong-but-real maze
+  transfers maze-family priors.</p>
+
+  <h3>What the numbers teach</h3>
+  <ul class="tight">
+    <li><strong>Position is genuinely read.</strong> Goal bearing: GLM
+    0.517 with the frame vs 0.017 blind, collapsing to 0.083 on shuffled
+    frames — it is reading <em>this</em> frame. Of its 60 bearing
+    answers, 31 were exact and 28 more had exactly one axis right. It
+    localises; imprecisely, not lost.</li>
+    <li><strong>Nobody verifies.</strong> In half the mazes the goal was
+    sealed inside walls on all four sides, plainly visible in the
+    frame. Asked "does a path exist?", GLM scored <strong>0/30</strong>
+    and MiniMax <strong>1/30</strong> on those — while scoring ~100% on
+    the open ones. Both asserted connectivity unconditionally; neither
+    inspected the goal's neighbourhood. A walled-in goal went unnoticed
+    59 times out of 60.</li>
+    <li><strong>Counting and local facts are not there yet.</strong> On
+    adjacent-wall count, both readers lost to the constant answer
+    "two" (0.533 / 0.300 vs 0.850). Distances were estimated, not
+    counted — GLM's exact-hit rate was 0.067, with errors out to ±18
+    cells; MiniMax counted, with slips (0.183 exact, many off by
+    one).</li>
+    <li><strong>The proposed gate was not met.</strong> The architecture
+    plan proposed stage-1 gates of ≥90% accuracy and ≥40 points of
+    lift. Best result: 44.3% and +29. Per the plan, thresholds are now
+    re-set from this baseline rather than from hope — and the
+    curriculum implication is specific: teach <em>verification
+    behaviour</em> and <em>counting procedure</em>, because positional
+    reading is already there to build on.</li>
+  </ul>
+  <p>Full write-up, with quoted failures and the harness:
+  <a href="docs/reading-experiment-results.md">the experiment's RESULTS
+  document</a>. The teaching response is already written into
+  <a href="learn.html">Track 3 of Learn</a>.</p>
+
+  <h2>The kernel's receipts</h2>
+  <ul class="tight">
+    <li><strong>219 checks, 0 failures</strong> (suite re-run and
+    verified locally, 2026-10-11).</li>
+    <li>Golden hash: <code>fnv1a = 0x6dbdd1a8</code> — the kernel's
+    output on its reference input is byte-identical on every machine;
+    that hash is how you know.</li>
+    <li>WASM build: <strong>6,808 bytes</strong>. The live demo runs it
+    on your camera, in your browser, twice per frame (WASM plus an
+    independent JS port) and counts byte-identical frames:
+    <a href="https://syzygy-1j5.pages.dev/">syzygy-1j5.pages.dev</a>.</li>
+    <li>Repo law, quoted because it governs this whole site:
+    <em>"Syzygy measures; it does not judge."</em></li>
+  </ul>
+
+  <h2>What is not true yet</h2>
+  <p>Taken from the kernel repo's own gap list, kept current on
+  purpose:</p>
+  <ul class="tight">
+    <li>No microcontroller has actually run the kernel — six targets
+    compile clean, none has been witnessed on metal.</li>
+    <li>The tokenizer is not learnable yet: it is a fixed argmax over a
+    fixed basis, with no training harness. Teaching it is the current
+    phase of the program.</li>
+    <li>The performance bench is drawn, not measured — the table is a
+    claim awaiting a witness.</li>
+    <li>The mesh merge is proven in memory; its network transport
+    (UDP) is unbuilt.</li>
+    <li>The reading experiment's readers were hosted models. The small
+    local student — the 7&nbsp;ms end of the design — is not trained
+    yet.</li>
+  </ul>
+
+  <h2>Every repo</h2>
+  <ul class="tight">
+    <li><a href="https://github.com/SuperInstance/Syzygy">SuperInstance/Syzygy</a> — the kernel.</li>
+    <li><a href="https://github.com/SuperInstance/syzygy-video">SuperInstance/syzygy-video</a> — real video through the kernel; the docks render on the front page.</li>
+    <li><a href="https://github.com/SuperInstance/syzygy-demo">SuperInstance/syzygy-demo</a> — the playable ASCII demo (Watch).</li>
+    <li><a href="https://github.com/SuperInstance/syzygy-studio">SuperInstance/syzygy-studio</a> — this site.</li>
+    <li><a href="https://superinstance.github.io/voice-games/tournament/">COLOR SQUAD arena</a> — the sister exhibit, live around the clock (source: <a href="https://github.com/SuperInstance/voice-games">SuperInstance/voice-games</a>).</li>
+  </ul>
+</main>
+
+<footer class="site"><div class="wrap">
+  <p>Syzygy measures; it does not judge. Claims on this site sit next to
+  their receipts — you are reading them.</p>
+  <p>Source: <a href="https://github.com/SuperInstance/Syzygy">kernel</a> ·
+  <a href="https://github.com/SuperInstance/syzygy-video">video pipeline</a> ·
+  <a href="https://github.com/SuperInstance/syzygy-demo">playable demo</a> ·
+  <a href="https://github.com/SuperInstance/syzygy-studio">this site</a></p>
+</div></footer>
+</body>
+</html>

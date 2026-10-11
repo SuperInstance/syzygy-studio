@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uses — one camera, one job</title>
+<meta name="description" content="Four purpose-decomposed applications of Syzygy text vision: the harbor inventory walker, the warehouse forklift, the packing grabber, and the overseer that joins first-person views.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <div class="wordmark"><a href="index.html">Syzygy</a></div>
+  <div class="tagline">The camera speaks in letters, so small minds can see.</div>
+  <nav class="main">
+    <a href="index.html">Home</a>
+    <a href="watch.html">Watch</a>
+    <a href="learn.html">Learn</a>
+    <a href="uses.html" aria-current="page">Uses</a>
+    <a href="results.html">Receipts</a>
+  </nav>
+</div></header>
+
+<main class="wrap">
+  <h1>Uses: one camera, one job</h1>
+  <p class="lede">A camera exists <em>for</em> a purpose, so the teaching
+  decomposes by purpose: a model never learns "vision" — it learns the
+  specific visual work of its specific camera. Narrowness is the
+  feature. It's what makes the model tiny, and the tiny model is what
+  fits on cheap hardware everywhere.</p>
+  <p>The ladder runs: browser → an Uno Q-class board → a Jetson-class
+  module → the training machine with the big teacher model. Each exhibit
+  below names its camera, its job, what it must never miss, and why
+  narrow wins there.</p>
+
+  <div class="card">
+    <h3>1. The harbor inventory walker</h3>
+    <p><strong>The camera:</strong> walking height, on a small robot
+    doing rounds of a working harbor — docks, finger piers, fuel shed,
+    tide line.</p>
+    <p><strong>The job:</strong> inventory as it walks — which boats are
+    in which slips, which crates are where — plus the 3D line work of
+    staying on the dock: know the edges, yield to people, and pull into
+    a finger pier to let a cart pass.</p>
+    <p><strong>Must never miss:</strong> the edge of the dock, and a
+    person stepping out from behind a hull.</p>
+    <p><strong>Why narrow wins:</strong> it needs the geometry of
+    <em>this</em> harbor, not a general theory of objects. The docks
+    video on the <a href="index.html">front page</a> is literally its
+    training data: first-person, moving camera, near pilings sharp and
+    far masts slow — depth you can feel from the rate the letters
+    change.</p>
+  </div>
+
+  <div class="card">
+    <h3>2. The warehouse forklift</h3>
+    <p><strong>The camera:</strong> one view, forward and down, mounted
+    low on an automatic forklift.</p>
+    <p><strong>The job:</strong> two things — object avoidance, and
+    getting the forks into the pallet. That's the whole job
+    description.</p>
+    <p><strong>Must never miss:</strong> a foot in the aisle, and the
+    pallet pocket's exact position at the moment of approach.</p>
+    <p><strong>Why narrow wins:</strong> one view, two jobs, extremely
+    streamlined. A model that does only this can be precise where it
+    matters and small enough for the smallest board on the ladder —
+    and it never pays, in frames or milliseconds, for eyes that watch
+    the ceiling.</p>
+  </div>
+
+  <div class="card">
+    <h3>3. The packing grabber</h3>
+    <p><strong>The camera:</strong> fixed above one station on one
+    conveyor line.</p>
+    <p><strong>The job:</strong> grab <em>that specific item</em> off
+    the belt — its shape, its orientation, its timing — and fold and
+    build <em>that exact box</em> to receive it.</p>
+    <p><strong>Must never miss:</strong> an item arriving skewed, and a
+    human hand entering the frame.</p>
+    <p><strong>Why narrow wins:</strong> hyper-specific is the point.
+    The narrower the world, the more exactly a tiny model can master
+    it — this camera's universe is a metre of belt, and perfection
+    inside a metre is achievable.</p>
+  </div>
+
+  <div class="card">
+    <h3>4. The overseer</h3>
+    <p><strong>The camera:</strong> overhead cameras, plus every robot's
+    own first-person text frames, joined into one top-down picture —
+    the RTS view of the whole floor or harbor.</p>
+    <p><strong>The job:</strong> watch the pattern, not the objects:
+    congestion forming, a walker and a cart converging on the same
+    crossing, a machine stopped where machines don't stop.</p>
+    <p><strong>Must never miss:</strong> two machines arriving at the
+    same crossing at the same time.</p>
+    <p><strong>Why narrow wins:</strong> the overseer reads grids of
+    grids. Each camera below already did its one job and published
+    letters; joining letters is cheap — text frames merge in any order,
+    duplicates and all, with no coordinator. The fleet watches each
+    other; the overseer watches the watching.</p>
+  </div>
+
+  <p>Every deployment defines the same three things — <em>this camera,
+  this job, these questions</em> — and the teaching is built from
+  footage of that job. If the use case isn't narrow enough to state in
+  one sentence, it isn't decomposed yet.</p>
+</main>
+
+<footer class="site"><div class="wrap">
+  <p>Syzygy measures; it does not judge. Claims on this site sit next to
+  their receipts — see <a href="results.html">Receipts</a>.</p>
+  <p>Source: <a href="https://github.com/SuperInstance/Syzygy">kernel</a> ·
+  <a href="https://github.com/SuperInstance/syzygy-video">video pipeline</a> ·
+  <a href="https://github.com/SuperInstance/syzygy-demo">playable demo</a> ·
+  <a href="https://github.com/SuperInstance/syzygy-studio">this site</a></p>
+</div></footer>
+</body>
+</html>

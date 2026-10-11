@@ -1,0 +1,96 @@
+/* Syzygy studio — one small stylesheet. System fonts, no webfonts,
+   no scripts. Pages stay light enough for metered connections. */
+:root {
+  --ink: #1a2230;
+  --paper: #fbfaf7;
+  --accent: #0b5fa5;
+  --accent-dark: #084a82;
+  --muted: #5a6572;
+  --rule: #ddd6c9;
+  --card: #ffffff;
+  --code-bg: #f0ede6;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+.wrap { max-width: 46rem; margin: 0 auto; padding: 0 1.1rem 3rem; }
+header.site {
+  border-bottom: 2px solid var(--rule);
+  margin-bottom: 1.6rem;
+}
+header.site .wrap { padding-top: 1rem; padding-bottom: 0.7rem; }
+.wordmark { font-weight: 700; font-size: 1.25rem; letter-spacing: 0.02em; }
+.wordmark a { color: var(--ink); text-decoration: none; }
+.tagline { color: var(--muted); font-size: 0.92rem; }
+nav.main { margin-top: 0.5rem; font-size: 0.98rem; }
+nav.main a {
+  margin-right: 1rem;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+nav.main a:hover { text-decoration: underline; }
+nav.main a[aria-current] { color: var(--ink); text-decoration: underline; }
+h1 { font-size: 1.9rem; line-height: 1.2; margin: 0.4rem 0 0.8rem; }
+h2 { font-size: 1.35rem; margin: 2rem 0 0.5rem; line-height: 1.3; }
+h3 { font-size: 1.12rem; margin: 1.4rem 0 0.35rem; }
+p { margin: 0.6rem 0; }
+a { color: var(--accent); }
+a:hover { color: var(--accent-dark); }
+.lede { font-size: 1.18rem; line-height: 1.55; }
+video, img.full { width: 100%; height: auto; display: block; border-radius: 6px; }
+figure { margin: 1.2rem 0; }
+figcaption { color: var(--muted); font-size: 0.92rem; margin-top: 0.45rem; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1rem 1.15rem;
+  margin: 1rem 0;
+}
+.card h3 { margin-top: 0.2rem; }
+blockquote.captain {
+  border-left: 4px solid var(--accent);
+  margin: 1.8rem 0;
+  padding: 0.4rem 0 0.4rem 1rem;
+  font-size: 1.25rem;
+  line-height: 1.45;
+  font-style: italic;
+}
+code, kbd {
+  background: var(--code-bg);
+  padding: 0.08em 0.35em;
+  border-radius: 4px;
+  font-size: 0.92em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+pre {
+  background: var(--code-bg);
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+pre code { background: none; padding: 0; }
+table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.98rem; }
+th, td { border: 1px solid var(--rule); padding: 0.45rem 0.6rem; text-align: left; }
+th { background: var(--code-bg); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.small { font-size: 0.92rem; color: var(--muted); }
+.level { border-top: 3px solid var(--accent); padding-top: 0.4rem; margin-top: 2.2rem; }
+footer.site {
+  border-top: 2px solid var(--rule);
+  margin-top: 2.5rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+footer.site .wrap { padding-top: 1rem; }
+ul.tight li { margin: 0.3rem 0; }

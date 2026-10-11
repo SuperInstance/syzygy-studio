@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learn — Syzygy at three levels</title>
+<meta name="description" content="Three tracks: the curious (plain language), builders (run the kernel, run a video, write a strategy tile), and agents (how to read a text frame, with the measured baseline).">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <div class="wordmark"><a href="index.html">Syzygy</a></div>
+  <div class="tagline">The camera speaks in letters, so small minds can see.</div>
+  <nav class="main">
+    <a href="index.html">Home</a>
+    <a href="watch.html">Watch</a>
+    <a href="learn.html" aria-current="page">Learn</a>
+    <a href="uses.html">Uses</a>
+    <a href="results.html">Receipts</a>
+  </nav>
+</div></header>
+
+<main class="wrap">
+  <h1>Learn, at your level</h1>
+  <p class="lede">Three tracks, three kinds of reader. Start where you
+  are; each track ends where the next one begins.</p>
+
+  <h2 class="level">Track 1 — Curious</h2>
+  <p><strong>Why letters?</strong> The smartest software we have mostly
+  works by reading and writing words. Cameras, meanwhile, produce
+  pictures — and a word-machine can't read a picture. Syzygy translates:
+  it turns each picture from a camera into a page of letters and marks
+  that keeps the shapes — edges as lines, brightness as denser or
+  lighter characters, fine detail as Braille dots. Once the world is a
+  page, anything that can read can see.</p>
+  <p><strong>What does it cost?</strong> Not dollars, first. An AI pays
+  in <em>compute, time, and frame rate</em> — those are its native
+  currency. A big general vision model is like hiring a whole film crew
+  to watch one doorbell. Syzygy's pass costs almost nothing, so the
+  reading can happen on every frame, on tiny hardware, in the
+  background — the way you never think about the code inside a
+  calculator.</p>
+  <p><strong>Why narrow beats general.</strong> A warehouse forklift's
+  camera points forward and down. Its whole world is: don't hit
+  anything, and line the forks up with the pallet. It does not need to
+  recognise faces, read signs, or appreciate sunsets — and if it only
+  learns its two jobs, it can be extremely precise at them and small
+  enough to live on a chip the size of a postage stamp. Precision for
+  its task — but only its task. That's not a limitation of the approach;
+  it <em>is</em> the approach. The front page shows the idea moving:
+  <a href="index.html">a Sitka dock, in letters</a>.</p>
+
+  <h2 class="level">Track 2 — Builders</h2>
+  <h3>1. Run the kernel</h3>
+  <pre><code>git clone https://github.com/SuperInstance/Syzygy
+cd Syzygy
+sh tools/suite-total.sh</code></pre>
+  <p>You should see <strong>219 checks, 0 failures</strong>, and the
+  golden hash <code>fnv1a = 0x6dbdd1a8</code>. The kernel is C with no
+  allocation, no floats, no libc — the same input produces byte-identical
+  output on every machine, which is what makes its results citable.
+  Or skip the clone and run it in your browser:
+  <a href="https://syzygy-1j5.pages.dev/">the live demo</a>.</p>
+  <h3>2. Run your own video through it</h3>
+  <pre><code>git clone https://github.com/SuperInstance/syzygy-video
+cd syzygy-video
+INPUT=/path/to/your.mp4 bash run.sh</code></pre>
+  <p>Out comes a text render per frame (glyph, Braille, and tone layers)
+  plus a side-by-side video of your footage and its letter-render. Calm,
+  moving-camera footage reads cleanest; the module's README documents
+  its thresholds and its honest limits.</p>
+  <h3>3. Write a strategy tile</h3>
+  <p>Clone <a href="https://github.com/SuperInstance/syzygy-demo">the
+  playable demo</a>, then look at <code>lib/strategies/</code>. A tile is
+  a small module: it receives the model's structured perception —
+  nothing else — and returns one action and a one-line reason that
+  appears in the decision feed. Copy <code>explorer.js</code>, change
+  one rule (say: prefer turning toward the widest corridor), restart,
+  and watch the feed argue differently on identical eyes. That loop —
+  perception fixed, judgment yours — is the whole design.</p>
+
+  <h2 class="level">Track 3 — Agents</h2>
+  <p><em>This track is written for you — a model learning to read a text
+  frame. It is the frozen reading guide from our first experiment, plus
+  the procedures that experiment proved necessary, plus the scores you
+  should expect of yourself.</em></p>
+  <h3>The frame</h3>
+  <p>You are shown a scene as a grid of characters, one character per
+  cell. In the maze form: <code>#</code> is a wall (impassable),
+  <code>.</code> is free floor, <code>A</code> is the agent,
+  <code>G</code> is the goal. Rows print top to bottom; the top row is
+  north. Columns run west (left) to east (right). Distances count
+  cells. "Adjacent" means the four cells directly north, south, east,
+  and west — never the diagonals. In kernel-rendered frames the same
+  discipline applies with richer alphabets: edge glyphs
+  (<code>─ │ ╱ ╲</code>) mark boundaries, Braille cells carry fine
+  detail, tone characters carry brightness. Always establish the legend
+  before reading anything.</p>
+  <h3>The procedures (this is where readers fail)</h3>
+  <ul class="tight">
+    <li><strong>Count cell by cell.</strong> Do not estimate a distance
+    from the look of the grid. Walk the row difference and the column
+    difference one cell at a time. Estimation feels like counting and
+    scores like guessing.</li>
+    <li><strong>Inspect the goal's doorstep before claiming a path.</strong>
+    List the goal's four neighbours first. If all four are walls, no
+    path exists — say so, whatever the rest of the maze looks like.
+    Then, and only then, trace a route step by step.</li>
+    <li><strong>Localise on one axis at a time.</strong> Bearing errors
+    usually keep one axis right and mirror the other. Compute the row
+    difference sign and the column difference sign separately, then
+    compose the direction.</li>
+    <li><strong>Keep the answer contract.</strong> If a format is
+    requested, answer in exactly that format. A correct answer in prose
+    the scorer can't parse is a wrong answer, and talking yourself past
+    your own correct intermediate step is a known failure mode.</li>
+    <li><strong>Abstain rather than assert.</strong> Connectivity,
+    counts, and contents you have not actually checked are unknowns.
+    "I have not verified a path" is a better answer than a confident
+    path that isn't there.</li>
+  </ul>
+  <h3>The baseline to beat</h3>
+  <p>Two strong text models took this test on 60 mazes, 300 purpose-shaped
+  questions, with the frame, with no frame (blind), and with the wrong
+  frame (shuffled). With the frame they scored <strong>44%</strong> and
+  <strong>35%</strong> overall, against blind baselines of 15% and 11% —
+  real reading, mostly of <em>position</em>: the better reader found
+  goal bearing at 52% against 2% blind. But on mazes where the goal was
+  visibly walled in on all four sides, they answered "a path exists"
+  anyway — <strong>0 of 30 and 1 of 30</strong> — and on counting
+  adjacent walls both lost to simply always answering "two". Read the
+  full results before your first run: <a href="results.html">Receipts</a>
+  (raw write-up: <a href="docs/reading-experiment-results.md">the
+  experiment's RESULTS document</a>; the frozen guide:
+  <a href="docs/reading-guide.md">READING_GUIDE</a>). Positional reading
+  is already there. Verification is what you are here to learn.</p>
+</main>
+
+<footer class="site"><div class="wrap">
+  <p>Syzygy measures; it does not judge. Claims on this site sit next to
+  their receipts — see <a href="results.html">Receipts</a>.</p>
+  <p>Source: <a href="https://github.com/SuperInstance/Syzygy">kernel</a> ·
+  <a href="https://github.com/SuperInstance/syzygy-video">video pipeline</a> ·
+  <a href="https://github.com/SuperInstance/syzygy-demo">playable demo</a> ·
+  <a href="https://github.com/SuperInstance/syzygy-studio">this site</a></p>
+</div></footer>
+</body>
+</html>
